@@ -96,14 +96,3 @@ In development Vite proxies `/api` and `/uploads` to the backend, so no CORS set
 
 - **Frontend**: `cd frontend && npm run build`, host `dist/` on Netlify/Vercel/etc. (a `_redirects` file for SPA routing is included; on Vercel add a rewrite of everything to `/index.html`). Set `VITE_API_URL` before building.
 - **Backend**: any Node host (Render, Railway, VPS). Set the env keys above and `NODE_ENV=production`; `CLIENT_URL` must be your deployed frontend URL. Product photos are saved to `backend/uploads/`, which is **wiped on hosts with ephemeral disks** — attach a persistent volume, or switch the upload middleware to S3/Cloudinary.
-
-## What changed from the Lovable version
-
-- Supabase Auth → JWT auth (bcrypt passwords) with Google sign-in via Google Identity Services.
-- Supabase tables + RLS → Mongoose models + ownership/admin checks in middleware and controllers (`has_role` → `user.role`).
-- TanStack server functions (`placeOrder`, `verifyPayment`) → `orderController`.
-- Supabase Storage → local `uploads/` via multer.
-- TanStack Router → React Router; same UI, styling and components.
-- Email confirmation on signup was dropped: accounts are active immediately.
-- Three images that Lovable hosted remotely (`parika-banner.jpg`, `parika-peacock-ear-chain.jpg`, `categories/earrings-chandbali.jpg`) weren't in the export, so labelled **placeholders** are in `frontend/src/assets/` — overwrite those files with the real photos (same names).
-- Existing Supabase users/orders are not migrated (passwords can't be exported); only the starter products are re-seeded.
